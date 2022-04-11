@@ -13,23 +13,6 @@
 #
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 
-always-run:
-  script: echo 'this should always run'
-
-on-pull-requests:
-  script: echo 'this should run on pull requests'
-  only:
-    - external_pull_requests
-
-except-pull-requests:
-  script: echo 'this should not run on pull requests'
-  except:
-    - external_pull_requests
-
-
-
-
-
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -41,6 +24,9 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "Compiling the code..."
     - echo "Compile complete."
+  only:
+    - external_pull_requests
+    
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
