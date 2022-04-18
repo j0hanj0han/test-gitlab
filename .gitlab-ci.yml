@@ -4,5 +4,5 @@ stages:
 test:
     stage: test
     script:
-        - echo "Failure!"
-        - exit 1
+        - echo "Success!"
+        - exit 0
