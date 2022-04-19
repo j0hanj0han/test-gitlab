@@ -3,3 +3,4 @@
 # test-gitlab
 sandbox gitlab
 minim ci
+hello world
