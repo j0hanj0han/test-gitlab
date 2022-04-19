@@ -55,6 +55,7 @@ flake8-job:
   stage: test
   script:
     - echo "Running Flake8 for the whole package"
+    - pip install flake8
     - flake8 .
 
 hello-world-job:
