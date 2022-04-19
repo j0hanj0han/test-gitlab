@@ -22,6 +22,12 @@ cache:
     - .cache/pip
     - venv/
 
+before_script:
+  - python --version  # For debugging
+  - pip install --upgrade pip
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -29,18 +35,10 @@ stages:          # List of stages for jobs, and their order of execution
   - test
   - deploy
 
-before_script:
-    stage: build
-    script:
-        - python --version  # For debugging
-        - python -m venv venv
-        - source venv/bin/activate
-
 install-package-job:
     stage: build
     script:
         - echo "Installing package cloud resources script..."
-        - pip install --upgrade pip
         - pip install .
         - pip freeze # for debug purpose
 
