@@ -44,4 +44,6 @@ run:
     # an alternative approach is to install and run:
     # - pip install dist/*
     - pip freeze
+    - pwd
+    - ls
     - python ./mypipackage/main.py
