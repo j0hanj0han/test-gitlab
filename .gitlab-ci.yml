@@ -22,28 +22,43 @@ cache:
     - .cache/pip
     - venv/
 
-stages:
-    - test
-    - run
 
-before_script:
-  - python --version  # For debugging
-  - python -m venv venv
-  - source venv/bin/activate
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - run
+  - deploy
 
-test:
+install-virtualenv-job:
+    stage: build
+    script:
+        - python --version  # For debugging
+        - python -m venv venv
+        - source venv/bin/activate
+
+install-package-job:
+    stage: build
+    script:
+        - echo "Installing package cloud resources script..."
+        - pip install --upgrade pip
+        - pip install .
+        - pip freeze # for debug purpose
+
+unit-test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
   script:
-    - python setup.py test
-    - pip install -e .[test]
-    # - pip install flake8  # you can also use tox
+    - pip install '.[test]'
+    - echo "Running unit tests..."
+    - pytest --cov=mypypipackage tests/
+
+flake8-job:
+  stage: test
+  script:
+    - echo "Running Flake8 for the whole package"
     - flake8 .
 
-run:
+hello-world-job:
+  stage: run
   script:
-    - pip install .
-    # an alternative approach is to install and run:
-    # - pip install dist/*
-    - pip freeze
-    - pwd
-    - ls
-    - python ./mypipackage/main.py
+    - echo "Run the main into the package"
+    - python ./mypypipackage/main.py

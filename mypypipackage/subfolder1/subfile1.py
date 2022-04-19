@@ -1,4 +1,6 @@
 
 
 def hello_world():
-    print('this is hello from subfile 1')
+    message = 'this is hello from subfile 1'
+    print(message)
+    return message
