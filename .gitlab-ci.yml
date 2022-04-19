@@ -23,18 +23,18 @@ cache:
     - venv/
 
 
-before_script:
-    script:
-        - python --version  # For debugging
-        - python -m venv venv
-        - source venv/bin/activate
-
-
 stages:          # List of stages for jobs, and their order of execution
   - build
   - run
   - test
   - deploy
+
+before_script:
+    stage: build
+    script:
+        - python --version  # For debugging
+        - python -m venv venv
+        - source venv/bin/activate
 
 install-package-job:
     stage: build
