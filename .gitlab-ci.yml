@@ -44,4 +44,4 @@ run:
     # an alternative approach is to install and run:
     # - pip install dist/*
     - pip freeze
-    - python helloworld.py
+    - python ./mypipackage/main.py
