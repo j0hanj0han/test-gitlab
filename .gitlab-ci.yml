@@ -11,6 +11,7 @@ image: python:3.7
 # only cache local items.
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  RELEASE_TYPE: "$RELEASE_TYPE"
 
 # Pip's cache doesn't store the python packages
 # https://pip.pypa.io/en/stable/topics/caching/
@@ -23,6 +24,7 @@ cache:
     - venv/
 
 before_script:
+  - echo $RELEASE_TYPE
   - python --version  # For debugging
   - pip install --upgrade pip
   - pip install virtualenv
@@ -61,3 +63,10 @@ hello-world-job:
   script:
     - echo "Run the main into the package"
     - python ./mypypipackage/main.py
+
+deploy-job:
+  stage: deploy
+  script:
+    - pip install twine
+    - python setup.py sdist bdist_wheel
+    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi dist/*
